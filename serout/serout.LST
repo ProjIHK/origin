@@ -1,0 +1,233 @@
+A51 MACRO ASSEMBLER  SEROUT                                                               09/28/2014 22:28:37 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02b
+OBJECT MODULE PLACED IN serout.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE serout.a51 NOMOD51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+                       2     ;$include (AT89S53.inc)
+                +1     3     ;-------------------------------------------------------------------
+                +1     4     ; AT89S53.INC
+                +1     5     ;
+                +1     6     ; Copyright 1997 KEIL ELEKTRONIK GmbH.  1997, All rights reserved.
+                +1     7     ; Atmel AT89S53 Processor Declarations
+                +1     8     ;-------------------------------------------------------------------
+                +1     9  +1 $save 
+                +1   171  +1 $restore 
+                     172     
+                     173     
+                     174     ;main2:
+                     175     ;       call serinit
+                     176     ;       mov a,#55h
+                     177     ;       call serout
+                     178     ;       jnb ti,$
+                     179     ;       jmp main2
+                     180     
+0000                 181     main:
+0000 1137            182             call serinit
+0002 7448            183             mov a,#'H'
+0004 1151            184             call serout 
+0006 7465            185             mov a,#'e'
+0008 1151            186             call serout 
+000A 746C            187             mov a,#'l'
+000C 1151            188             call serout 
+000E 746C            189             mov a,#'l'
+0010 1151            190             call serout 
+0012 746F            191             mov a,#'o'
+0014 1151            192             call serout 
+0016 7420            193             mov a,#' '
+0018 1151            194             call serout 
+001A 7457            195             mov a,#'W'
+001C 1151            196             call serout 
+001E 746F            197             mov a,#'o'
+0020 1151            198             call serout 
+0022 7472            199             mov a,#'r'
+0024 1151            200             call serout 
+0026 746C            201             mov a,#'l'
+0028 1151            202             call serout 
+002A 7464            203             mov a,#'d'
+002C 1151            204             call serout 
+002E 7421            205             mov a,#'!'
+0030 1151            206             call serout 
+0032 3099FD          207             jnb ti,$
+0035 80C9            208             jmp main
+                     209     
+                     210     
+                     211     ;initializes serial interface with a
+0037                 212     serinit:         
+0037 758920          213             MOV     TMOD, #20H   ; [GATE|C/T_|M1|M0|GATE|C/T_|M1|M0] #00100000B
+003A 759852          214             MOV     SCON, #52H     ; [SM0|SM1|SM2|REN|TB8|RB8|TI|RI] #01010010B
+003D E587            215             MOV     A, PCON     
+003F D2E7            216             SETB    ACC.7
+0041 F587            217             MOV     PCON, A      ; [SMOD|-|-|-|GF1|GF0|PD|IDL] SMOD=1
+0043 758DF3          218             MOV     TH1, #0F3H     ; 4800 baud
+0046 D28E            219             SETB    TR1          
+A51 MACRO ASSEMBLER  SEROUT                                                               09/28/2014 22:28:37 PAGE     2
+
+0048 22              220             RET   
+                     221             
+                     222             
+0049                 223     serin:
+0049 3098FD          224             jnb ri, $   ; Warte auf Eingabe 
+004C C298            225             clr ri ; Lösche das Eingabe-Flag
+004E E599            226             mov a,sbuf  ; Lesen des Eingabezeichen aus dem Buffer 
+0050 22              227             ret     
+                     228             
+0051                 229     serout:
+0051 3099FD          230             jnb ti,$
+0054 C299            231             clr ti
+0056 F599            232             mov sbuf,a
+0058 22              233             ret
+                     234             
+                     235     end
+A51 MACRO ASSEMBLER  SEROUT                                                               09/28/2014 22:28:37 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+AC . . . . . . . .  B ADDR   00D0H.6 A   
+ACC. . . . . . . .  D ADDR   00E0H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+CP_RL2 . . . . . .  B ADDR   00C8H.0 A   
+CY . . . . . . . .  B ADDR   00D0H.7 A   
+C_T2 . . . . . . .  B ADDR   00C8H.1 A   
+DP0H . . . . . . .  D ADDR   0083H   A   
+DP0L . . . . . . .  D ADDR   0082H   A   
+DP1H . . . . . . .  D ADDR   0085H   A   
+DP1L . . . . . . .  D ADDR   0084H   A   
+DPH. . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . .  D ADDR   0082H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ES . . . . . . . .  B ADDR   00A8H.4 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . .  B ADDR   00A8H.3 A   
+ET2. . . . . . . .  B ADDR   00A8H.5 A   
+EX0. . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . .  B ADDR   00A8H.2 A   
+EXEN2. . . . . . .  B ADDR   00C8H.3 A   
+EXF2 . . . . . . .  B ADDR   00C8H.6 A   
+F0 . . . . . . . .  B ADDR   00D0H.5 A   
+FL . . . . . . . .  B ADDR   00D0H.1 A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+IE0. . . . . . . .  B ADDR   0088H.1 A   
+IE1. . . . . . . .  B ADDR   0088H.3 A   
+INT0 . . . . . . .  B ADDR   00B0H.2 A   
+INT1 . . . . . . .  B ADDR   00B0H.3 A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+MISO . . . . . . .  B ADDR   0090H.6 A   
+MOSI . . . . . . .  B ADDR   0090H.5 A   
+OV . . . . . . . .  B ADDR   00D0H.2 A   
+P. . . . . . . . .  B ADDR   00D0H.0 A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P0_0 . . . . . . .  B ADDR   0080H.0 A   
+P0_1 . . . . . . .  B ADDR   0080H.1 A   
+P0_2 . . . . . . .  B ADDR   0080H.2 A   
+P0_3 . . . . . . .  B ADDR   0080H.3 A   
+P0_4 . . . . . . .  B ADDR   0080H.4 A   
+P0_5 . . . . . . .  B ADDR   0080H.5 A   
+P0_6 . . . . . . .  B ADDR   0080H.6 A   
+P0_7 . . . . . . .  B ADDR   0080H.7 A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P1_0 . . . . . . .  B ADDR   0090H.0 A   
+P1_1 . . . . . . .  B ADDR   0090H.1 A   
+P1_2 . . . . . . .  B ADDR   0090H.2 A   
+P1_3 . . . . . . .  B ADDR   0090H.3 A   
+P1_4 . . . . . . .  B ADDR   0090H.4 A   
+P1_5 . . . . . . .  B ADDR   0090H.5 A   
+P1_6 . . . . . . .  B ADDR   0090H.6 A   
+P1_7 . . . . . . .  B ADDR   0090H.7 A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P2_0 . . . . . . .  B ADDR   00A0H.0 A   
+P2_1 . . . . . . .  B ADDR   00A0H.1 A   
+P2_2 . . . . . . .  B ADDR   00A0H.2 A   
+P2_3 . . . . . . .  B ADDR   00A0H.3 A   
+P2_4 . . . . . . .  B ADDR   00A0H.4 A   
+A51 MACRO ASSEMBLER  SEROUT                                                               09/28/2014 22:28:37 PAGE     4
+
+P2_5 . . . . . . .  B ADDR   00A0H.5 A   
+P2_6 . . . . . . .  B ADDR   00A0H.6 A   
+P2_7 . . . . . . .  B ADDR   00A0H.7 A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+P3_0 . . . . . . .  B ADDR   00B0H.0 A   
+P3_1 . . . . . . .  B ADDR   00B0H.1 A   
+P3_2 . . . . . . .  B ADDR   00B0H.2 A   
+P3_3 . . . . . . .  B ADDR   00B0H.3 A   
+P3_4 . . . . . . .  B ADDR   00B0H.4 A   
+P3_5 . . . . . . .  B ADDR   00B0H.5 A   
+P3_6 . . . . . . .  B ADDR   00B0H.6 A   
+P3_7 . . . . . . .  B ADDR   00B0H.7 A   
+PCON . . . . . . .  D ADDR   0087H   A   
+PS . . . . . . . .  B ADDR   00B8H.4 A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+PT0. . . . . . . .  B ADDR   00B8H.1 A   
+PT1. . . . . . . .  B ADDR   00B8H.3 A   
+PT2. . . . . . . .  B ADDR   00B8H.5 A   
+PX0. . . . . . . .  B ADDR   00B8H.0 A   
+PX1. . . . . . . .  B ADDR   00B8H.2 A   
+RB8. . . . . . . .  B ADDR   0098H.2 A   
+RCAP2H . . . . . .  D ADDR   00CBH   A   
+RCAP2L . . . . . .  D ADDR   00CAH   A   
+RCLK . . . . . . .  B ADDR   00C8H.5 A   
+RD . . . . . . . .  B ADDR   00B0H.7 A   
+REN. . . . . . . .  B ADDR   0098H.4 A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+RS0. . . . . . . .  B ADDR   00D0H.3 A   
+RS1. . . . . . . .  B ADDR   00D0H.4 A   
+RXD. . . . . . . .  B ADDR   00B0H.0 A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCK. . . . . . . .  B ADDR   0090H.7 A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SERIN. . . . . . .  C ADDR   0049H   A   
+SERINIT. . . . . .  C ADDR   0037H   A   
+SEROUT . . . . . .  C ADDR   0051H   A   
+SM0. . . . . . . .  B ADDR   0098H.7 A   
+SM1. . . . . . . .  B ADDR   0098H.6 A   
+SM2. . . . . . . .  B ADDR   0098H.5 A   
+SP . . . . . . . .  D ADDR   0081H   A   
+SPCR . . . . . . .  D ADDR   00D5H   A   
+SPDR . . . . . . .  D ADDR   0086H   A   
+SPSR . . . . . . .  D ADDR   00AAH   A   
+SS . . . . . . . .  B ADDR   0090H.4 A   
+T0 . . . . . . . .  B ADDR   00B0H.4 A   
+T1 . . . . . . . .  B ADDR   00B0H.5 A   
+T2 . . . . . . . .  B ADDR   0090H.0 A   
+T2CON. . . . . . .  D ADDR   00C8H   A   
+T2EX . . . . . . .  B ADDR   0090H.1 A   
+T2MOD. . . . . . .  D ADDR   00C9H   A   
+TB8. . . . . . . .  B ADDR   0098H.3 A   
+TCLK . . . . . . .  B ADDR   00C8H.4 A   
+TCON . . . . . . .  D ADDR   0088H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TF2. . . . . . . .  B ADDR   00C8H.7 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TH2. . . . . . . .  D ADDR   00CDH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TL2. . . . . . . .  D ADDR   00CCH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+A51 MACRO ASSEMBLER  SEROUT                                                               09/28/2014 22:28:37 PAGE     5
+
+TR2. . . . . . . .  B ADDR   00C8H.2 A   
+TXD. . . . . . . .  B ADDR   00B0H.1 A   
+WMCON. . . . . . .  D ADDR   0096H   A   
+WR . . . . . . . .  B ADDR   00B0H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
